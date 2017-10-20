@@ -20,7 +20,7 @@ tmp_upload_dir = None
 errorlog = '-'
 loglevel = 'info'
 accesslog = '-'
-access_log_format = '%(h)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+access_log_format = '"%({X-Real-IP}i)s" "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
 # -------------------------------------
 

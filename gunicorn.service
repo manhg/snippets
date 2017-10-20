@@ -5,6 +5,7 @@ After=network.target
 [Service]
 PIDFile=/tmp/gunicorn.pid
 WorkingDirectory=/app
+Environment="PYTHONIOENCODING=utf-8"
 ExecStart=/app/venv/bin/gunicorn --pid /tmp/gunicorn.pid -c gunicron_config.py app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID

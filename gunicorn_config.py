@@ -4,12 +4,12 @@ backlog = 2048
 preload_app = True
 
 workers = 8
-worker_class = 'gevent' # 'sync'
-worker_connections = 1000
+worker_class = 'sync'
+worker_connections = 2048
 timeout = 30
 keepalive = 2
 
-max_requests = 10000
+max_requests = 50000
 spew = False
 daemon = False
 umask = 0o027
@@ -20,7 +20,9 @@ tmp_upload_dir = None
 errorlog = '-'
 loglevel = 'info'
 accesslog = '-'
-access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+access_log_format = '%(h)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+
+# -------------------------------------
 
 def post_fork(server, worker):
     server.log.info("Worker spawned (pid: %s)", worker.pid)
@@ -37,7 +39,6 @@ def when_ready(server):
 def worker_int(worker):
     worker.log.info("worker received INT or QUIT signal")
 
-    ## get traceback info
     import threading, sys, traceback
     id2name = dict([(th.ident, th.name) for th in threading.enumerate()])
     code = []

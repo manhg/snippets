@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn
+After=network.target
+
+[Service]
+PIDFile=/tmp/gunicorn.pid
+WorkingDirectory=/app
+ExecStart=/app/venv/bin/gunicorn --pid /tmp/gunicorn.pid -c gunicron_config.py app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-failure
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=default.target

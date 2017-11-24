@@ -3,7 +3,7 @@ proc_name = 'app'
 backlog = 2048
 preload_app = True
 
-workers = 8
+workers = 2
 worker_class = 'sync'
 worker_connections = 2048
 timeout = 30
@@ -17,6 +17,7 @@ user = None
 group = None
 tmp_upload_dir = None
 
+capture_output = True
 errorlog = '-'
 loglevel = 'info'
 accesslog = '-'

@@ -1,0 +1,3 @@
+*.iso
+debian-xhyve/initrd.gz
+debian-xhyve/linux

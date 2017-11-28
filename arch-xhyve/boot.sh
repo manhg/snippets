@@ -7,36 +7,39 @@
 # https://gist.github.com/lloeki/ca1d508cbc7692dfba52
 # https://gist.github.com/lloeki/998675988a96ef286e0a
 #
-iso=archlinux-2017.11.01-x86_64.iso
 
-if [ ! -f $iso ]; then
-    wget http://ftp.nara.wide.ad.jp/pub/Linux/archlinux/iso/2017.11.01/archlinux-2017.11.01-x86_64.iso
-fi
- 
-if [ ! -f archiso.img ]; then
-    echo "fixing disk"
-    dd if=/dev/zero bs=2k count=1 of=tmp.iso
-    dd if=$iso bs=2k skip=1 >> tmp.iso
+if [ $USE_CD ]; then
+    iso=archlinux-2017.11.01-x86_64.iso
+
+    if [ ! -f $iso ]; then
+        wget http://ftp.nara.wide.ad.jp/pub/Linux/archlinux/iso/2017.11.01/archlinux-2017.11.01-x86_64.iso
+    fi
      
-    echo "mounting disk"
-    diskinfo=$(hdiutil attach tmp.iso)
-    disk=$(echo "$diskinfo" |  cut -d' ' -f1)
-    mnt=$(echo "$diskinfo" | perl -ne '/(\/Volumes.*)/ and print $1')
-    echo "mounted as $disk at $mnt"
-     
-    echo "extracting kernel"
-    ls -l "$mnt/arch/boot/x86_64"
-    cp "$mnt/arch/boot/x86_64/vmlinuz" .
-    cp "$mnt/arch/boot/x86_64/archiso.img" .
-    diskutil eject "$disk"
-    rm tmp.iso
-fi
+    if [ ! -f archiso.img ]; then
+        echo "fixing disk"
+        dd if=/dev/zero bs=2k count=1 of=tmp.iso
+        dd if=$iso bs=2k skip=1 >> tmp.iso
+         
+        echo "mounting disk"
+        diskinfo=$(hdiutil attach tmp.iso)
+        disk=$(echo "$diskinfo" |  cut -d' ' -f1)
+        mnt=$(echo "$diskinfo" | perl -ne '/(\/Volumes.*)/ and print $1')
+        echo "mounted as $disk at $mnt"
+         
+        echo "extracting kernel"
+        ls -l "$mnt/arch/boot/x86_64"
+        cp "$mnt/arch/boot/x86_64/vmlinuz" .
+        cp "$mnt/arch/boot/x86_64/archiso.img" .
+        diskutil eject "$disk"
+        rm tmp.iso
+    fi
 
-if [ ! -f disk.img ]; then
-    echo "creating hdd"
-    truncate -s 8G disk.img
+    if [ ! -f disk.img ]; then
+        echo "creating hdd"
+        truncate -s 8G disk.img
+    fi
+    IMG_CD="-s 3,ahci-cd,$iso"
 fi
-
  
 KERNEL="vmlinuz"
 INITRD="archiso.img"
@@ -45,8 +48,6 @@ CMDLINE="console=ttyS0 archisobasedir=arch acpi=off earlyprintk=serial archisola
 MEM="-m 512M"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 NET="-s 2:0,virtio-net"
-
-IMG_CD="-s 3,ahci-cd,$iso"
 
 if [ ! $USE_CD ]; then
     KERNEL="vmlinuz-linux"

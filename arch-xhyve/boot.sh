@@ -1,4 +1,12 @@
 #!/bin/bash
+#
+# Document:
+#
+# https://www.freebsd.org/doc/handbook/virtualization-host-bhyve.html
+# http://blog.dunkelstern.de/2016/01/17/xhyve-a-quick-how-to/
+# https://gist.github.com/lloeki/ca1d508cbc7692dfba52
+# https://gist.github.com/lloeki/998675988a96ef286e0a
+#
 iso=archlinux-2017.11.01-x86_64.iso
 
 if [ ! -f $iso ]; then
@@ -26,8 +34,9 @@ fi
 
 if [ ! -f disk.img ]; then
     echo "creating hdd"
-    dd if=/dev/zero of=disk.img bs=4G count=1
+    truncate -s 8G disk.img
 fi
+
  
 KERNEL="vmlinuz"
 INITRD="archiso.img"
@@ -36,11 +45,16 @@ CMDLINE="console=ttyS0 archisobasedir=arch acpi=off earlyprintk=serial archisola
 MEM="-m 512M"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 NET="-s 2:0,virtio-net"
+
 IMG_CD="-s 3,ahci-cd,$iso"
+
+if [ ! $USE_CD ]; then
+    KERNEL="vmlinuz-linux"
+    INITRD="initramfs-linux.img"
+    CMDLINE="console=ttyS0 acpi=off earlyprintk=serial root=/dev/vda1 console=ttyS0,38400n8 archisolabel=ARCH_201711"
+fi
+
 IMG_HDD="-s 4,virtio-blk,disk.img"
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
- # http://blog.dunkelstern.de/2016/01/17/xhyve-a-quick-how-to/
 sudo xhyve $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"
-
-

@@ -38,8 +38,8 @@ else
     INITRD="initrd.img"
     CMDLINE="console=ttyS0,38400n8 acpi=off earlyprintk=serial root=/dev/vda1 "
 fi
-
+UUID=" -U 20000000-0000-0000-0000-000000000000"
 IMG_HDD="-s 4,virtio-blk,disk.img"
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
-sudo xhyve $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+sudo xhyve $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

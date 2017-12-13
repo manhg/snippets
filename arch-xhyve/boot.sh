@@ -44,7 +44,9 @@ fi
 KERNEL="vmlinuz"
 INITRD="archiso.img"
 CMDLINE="console=ttyS0 archisobasedir=arch acpi=off earlyprintk=serial archisolabel=ARCH_201711"
- 
+
+# uuid is required to persist network ip
+UUID=" -U 10000000-0000-0000-0000-000000000000"
 MEM="-m 512M"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 NET="-s 2:0,virtio-net"
@@ -58,4 +60,4 @@ fi
 IMG_HDD="-s 4,virtio-blk,disk.img"
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
-sudo xhyve $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+sudo xhyve $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

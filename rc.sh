@@ -1,4 +1,3 @@
-export HH_CONFIG=hicolor         # get more colors
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -40,13 +39,19 @@ export GOPATH=~/.gopath
 case "$OSTYPE" in
     darwin*)
         export HOMEBREW_NO_AUTO_UPDATE=1
-        export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH:$GOPATH/bin"
+        export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin/:$PATH:$GOPATH/bin"
         if [ -f /usr/local/bin/virtualenvwrapper_lazy.sh ]; then
             export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
             source /usr/local/bin/virtualenvwrapper_lazy.sh
         fi
         alias komodo='open -a "Komodo Edit 11"'
+        export HH_CONFIG=hicolor
+        bindkey -s "\C-r" "\eqhh\n"     # bind hh to Ctrl-r (for Vi mode check doc)
+        if [ $(which autossh) ]; then
+            autossh -M 6400 -f
+        fi
         ;;
+        
     linux*)
         if [ -f /usr/bin/virtualenvwrapper_lazy.sh ]; then
             source /usr/bin/virtualenvwrapper_lazy.sh

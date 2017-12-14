@@ -1,0 +1,9 @@
+[Unit]
+# ensure app is up before proxying
+# can add additonal services such as database
+Requires=app@%i.service
+After=app@%i.service
+BindsTo=app@%i.service
+
+[Service]
+ExecStart=/lib/systemd/systemd-socket-proxyd 127.0.0.1:90%i

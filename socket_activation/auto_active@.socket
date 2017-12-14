@@ -1,0 +1,9 @@
+[Unit]
+Description=auto socket %i
+
+[Socket]
+ListenStream=99%i
+BindIPv6Only=both
+
+[Install]
+WantedBy=sockets.target

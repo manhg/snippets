@@ -51,10 +51,11 @@ case "$OSTYPE" in
             autossh -M 6400 -f
         fi
         ;;
-        
+
     linux*)
         if [ -f /usr/bin/virtualenvwrapper_lazy.sh ]; then
             source /usr/bin/virtualenvwrapper_lazy.sh
         fi
+        export PATH=~/.bin:$PATH
         [ -f /etc/bash_completion ] && . /etc/bash_completion
 esac

@@ -13,3 +13,4 @@ curl https://getmic.ro | bash
 mv micro ~/.bin
 mkdir -p ~/.config/micro
 curl $MY/micro_shortcuts.json > ~/.config/micro/bindings.json
+echo 'source .bashrc' > .bash_profile

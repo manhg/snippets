@@ -1,6 +1,7 @@
 MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/.rc > ~/.rc
 curl $MY/bashrc > ~/.bashrc
+echo 'source .bashrc' >> .bash_profile
 
 if [ command -v zsh ]; then
     curl $MY/zshrc > ~/.zshrc
@@ -13,4 +14,5 @@ curl https://getmic.ro | bash
 mv micro ~/.bin
 mkdir -p ~/.config/micro
 curl $MY/micro_shortcuts.json > ~/.config/micro/bindings.json
-echo 'source .bashrc' > .bash_profile
+
+curl -sSf https://moncho.github.io/dry/dryup.sh | sudo sh

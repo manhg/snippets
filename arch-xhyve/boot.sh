@@ -41,22 +41,13 @@ if [ $USE_CD ]; then
     IMG_CD="-s 3,ahci-cd,$iso"
 fi
  
-KERNEL="vmlinuz"
-INITRD="archiso.img"
-CMDLINE="console=ttyS0 archisobasedir=arch acpi=off earlyprintk=serial archisolabel=ARCH_201711"
-
-# uuid is required to persist network ip
 UUID=" -U 10000000-0000-0000-0000-000000000000"
 MEM="-m 512M"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 NET="-s 2:0,virtio-net"
-
-if [ ! $USE_CD ]; then
-    KERNEL="vmlinuz-linux"
-    INITRD="initramfs-linux.img"
-    CMDLINE="console=ttyS0 acpi=off earlyprintk=serial root=/dev/vda1 console=ttyS0,38400n8 archisolabel=ARCH_201711"
-fi
-
+KERNEL="vmlinuz-linux"
+INITRD="initramfs-linux.img"
+CMDLINE="console=ttyS0 acpi=off earlyprintk=serial root=/dev/vda1 console=ttyS0,38400n8"
 IMG_HDD="-s 4,virtio-blk,disk.img"
 LPC_DEV="-l com1,stdio"
 ACPI="-A"

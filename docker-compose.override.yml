@@ -1,0 +1,5 @@
+# use host network for performance
+networks:
+    default:
+        driver_opts:
+            network_mode: "host"

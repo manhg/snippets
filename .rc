@@ -61,3 +61,4 @@ case "$OSTYPE" in
 esac
 
 export EDITOR=micro
+clean_macos_files='find . -name .DS_Store -type f -delete ; find . -name "._*" -delete'

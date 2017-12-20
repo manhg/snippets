@@ -11,5 +11,5 @@ if [ -d ~/.oh-my-zsh ] ; then
     source ~/.oh-my-zsh/oh-my-zsh.sh
 fi
 
-source rc.sh
+source .rc
 export HISTFILE=~/.zsh_history

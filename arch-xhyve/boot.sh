@@ -50,6 +50,10 @@ KERNEL="vmlinuz-linux"
 INITRD="initramfs-linux.img"
 CMDLINE="console=ttyS0 acpi=off earlyprintk=serial root=/dev/vda1 console=ttyS0,38400n8"
 IMG_HDD="-s 4,virtio-blk,disk.img"
+
+# add disk you want here
+# IMG_HDD="$IMG_HDD -s 5,virtio-blk,other.img"
+
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
 sudo xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

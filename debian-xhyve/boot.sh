@@ -13,10 +13,10 @@ PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
 NET="-s 2:0,virtio-net"
 
 if [ $USE_CD ]; then
-    iso=debian-9.2.1-amd64-netinst.iso
+    iso=debian-9.3.0-amd64-netinst.iso
 
     if [ ! -f $iso ]; then
-        wget http://ftp.jaist.ac.jp/pub/Linux/debian-cd/current/amd64/iso-cd/debian-9.2.1-amd64-netinst.iso
+        wget http://ftp.jaist.ac.jp/pub/Linux/debian-cd/current/amd64/iso-cd/$iso
     fi
 
     if [ ! -f initrd.gz ]; then
@@ -41,6 +41,9 @@ else
 fi
 UUID=" -U 90000000-0000-0000-0000-000000000000"
 LPC_DEV="-l com1,stdio"
+
 IMG_HDD="-s 4,virtio-blk,disk.img"
+# add disk you want here
+# IMG_HDD="$IMG_HDD -s 5,virtio-blk,other.img"
 ACPI="-A"
 sudo xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

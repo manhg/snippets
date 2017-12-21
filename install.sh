@@ -9,10 +9,15 @@ if [ command -v zsh ]; then
     curl https://raw.githubusercontent.com/rupa/z/master/z.sh > ~/.z
 fi
 
-mkdir ~/.bin
-curl https://getmic.ro | bash
-mv micro ~/.bin
-mkdir -p ~/.config/micro
-curl $MY/micro_shortcuts.json > ~/.config/micro/bindings.json
+if [ ! -f ~/.bin/micro ]; then
+    mkdir ~/.bin
+    curl https://getmic.ro | bash
+    mv micro ~/.bin
+    mkdir -p ~/.config/micro
+    curl $MY/micro_shortcuts.json > ~/.config/micro/bindings.json
+fi
 
-curl -sSf https://moncho.github.io/dry/dryup.sh | sudo sh
+if [ ! -f /usr/local/bin/dry ]; then
+    curl -sSf https://moncho.github.io/dry/dryup.sh | sudo sh
+    sudo chmod 755 /usr/local/bin/dry
+fi

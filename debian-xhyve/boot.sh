@@ -26,7 +26,7 @@ if [ $USE_CD ]; then
 
     if [ ! -f disk.img ]; then
         echo "creating hdd"
-        truncate -s 8G disk.img
+        truncate -s 25G disk.img
     fi
 
 

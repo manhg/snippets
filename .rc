@@ -61,7 +61,8 @@ case "$OSTYPE" in
 esac
 
 export EDITOR=micro
-clean_macos_files='find . -name .DS_Store -type f -delete ; find . -name "._*" -delete'
+alias clean_macos_files='find . -name .DS_Store -type f -delete ; find . -name "._*" -delete'
+
 
 if [[ $(hostname) == *".local"* ]]; then
     export PS1="\[\033[38;5;10m\]\w ■\[\] $(tput sgr0)"

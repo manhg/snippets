@@ -46,4 +46,4 @@ IMG_HDD="-s 4,virtio-blk,disk.img"
 # add disk you want here
 # IMG_HDD="$IMG_HDD -s 5,virtio-blk,other.img"
 ACPI="-A"
-sudo xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+sudo /usr/local/bin/xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

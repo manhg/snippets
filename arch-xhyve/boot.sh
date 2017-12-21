@@ -36,12 +36,12 @@ if [ $USE_CD ]; then
 
     if [ ! -f disk.img ]; then
         echo "creating hdd"
-        truncate -s 8G disk.img
+        truncate -s 25G disk.img
     fi
     IMG_CD="-s 3,ahci-cd,$iso"
 fi
  
-UUID=" -U 70000000-0000-0000-0000-000000000000"
+UUID=" -U 10000000-0000-0000-0000-000000000000"
 MEM="-m 1024M"
 CPU="-c 1"
 PCI_DEV="-s 0:0,hostbridge -s 31,lpc"
@@ -52,8 +52,8 @@ CMDLINE="console=ttyS0 acpi=off earlyprintk=serial root=/dev/vda1 console=ttyS0,
 IMG_HDD="-s 4,virtio-blk,disk.img"
 
 # add disk you want here
-# IMG_HDD="$IMG_HDD -s 5,virtio-blk,other.img"
+# IMG_HDD="$IMG_HDD -s 5,virtio-blk,/work/.archlinux/disk.img"
 
 LPC_DEV="-l com1,stdio"
 ACPI="-A"
-sudo xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"
+sudo /usr/local/bin/xhyve $CPU -w $UUID $ACPI $MEM $SMP $PCI_DEV $LPC_DEV $NET $IMG_CD $IMG_HDD -f kexec,$KERNEL,$INITRD,"$CMDLINE"

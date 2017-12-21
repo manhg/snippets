@@ -1,7 +1,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-source .rc
+
 if [ -d ~/.oh-my-zsh ] ; then
     export ZSH_THEME="af-magic"
     export ZSH=~/.oh-my-zsh
@@ -11,4 +11,6 @@ if [ -d ~/.oh-my-zsh ] ; then
     )
     source ~/.oh-my-zsh/oh-my-zsh.sh
 fi
+
+source .rc
 export HISTFILE=~/.zsh_history

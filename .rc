@@ -64,8 +64,10 @@ export EDITOR=micro
 alias clean_macos_files='find . -name .DS_Store -type f -delete ; find . -name "._*" -delete'
 
 
-if [[ $(hostname) == *".local"* ]]; then
-    export PS1="\[\033[38;5;10m\]\w ■\[\] $(tput sgr0)"
-else
-    export PS1="\[\033[38;5;11m\]\u@\h \[\]\[\033[38;5;9m\] \w ■ \[\]\[\033[38;5;15m\] \[\]"
+if [[ $BASH ]]; then
+    if [[ $(hostname) == *".local"* ]]; then
+        export PS1="\[\033[38;5;10m\]\w ■\[\] $(tput sgr0)"
+    else
+        export PS1="\[\033[38;5;11m\]\u@\h \[\]\[\033[38;5;9m\] \w ■ \[\]\[\033[38;5;15m\] \[\]"
+    fi
 fi

@@ -58,7 +58,7 @@ case "$OSTYPE" in
         fi
         export PATH=~/.bin:$PATH
         [ -f /etc/bash_completion ] && . /etc/bash_completion
-        
+
         if [ -z "$SSH_AUTH_SOCK" ] ; then
             eval `ssh-agent -s` &> /dev/null
             ssh-add &> /dev/null
@@ -76,3 +76,5 @@ if [[ $BASH ]]; then
         export PS1="\[\033[38;5;11m\]\u@\h \[\]\[\033[38;5;9m\] \w ■ \[\]\[\033[38;5;15m\] \[\]"
     fi
 fi
+
+alias ssha='autossh -M 0 -f -T -N '

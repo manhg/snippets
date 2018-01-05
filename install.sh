@@ -3,7 +3,7 @@ curl $MY/.rc > ~/.rc
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 
-if [ command -v zsh ]; then
+if [ -f /bin/zsh ]; then
     curl $MY/zshrc > ~/.zshrc
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     curl https://raw.githubusercontent.com/rupa/z/master/z.sh > ~/.z

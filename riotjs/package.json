@@ -1,0 +1,28 @@
+{
+    "name": "my-riotjs",
+    "version": "0.0.1",
+    "description": "",
+    "license": "MIT",
+    "engines": {
+        "node": ">=4.0.0"
+    },
+    "scripts": {
+        "dev": "webpack-dev-server --inline --watch --hot --colors -d --port 8800",
+        "build": "webpack"
+    },
+    "dependencies": {
+        "babel": "^6.23.0",
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-es2015-riot": "1.1.0",
+        "coffee-loader": "^0.9.0",
+        "coffee-script": "^1.12.7",
+        "html-webpack-plugin": "^2.30.1",
+        "riot": "^3.7.4",
+        "riot-hot-reload": "riot/hot-reload#master",
+        "riot-tag-loader": "^2.0.0",
+        "webpack": "^3.10.0",
+        "webpack-dev-server": "^2.9.7"
+    }
+}

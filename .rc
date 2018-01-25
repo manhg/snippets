@@ -45,6 +45,7 @@ case "$OSTYPE" in
             export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
             source /usr/local/bin/virtualenvwrapper_lazy.sh
         fi
+        alias ls='ls --color=auto --classify --group-directories-first --human-readable --quoting-style=literal'
         alias komodo='open -a "Komodo Edit 11"'
         export HH_CONFIG=hicolor
         bindkey -s "\C-r" "\eqhh\n"  &> /dev/null

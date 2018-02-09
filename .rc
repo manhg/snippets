@@ -1,6 +1,7 @@
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+
 export MANPAGER="less -X" # Don't clear the screen after quitting a manual page
 
 export PYTHONIOENCODING=utf-8
@@ -18,6 +19,7 @@ alias du10='du --max-depth=1 | sort -n -r | head -n 10'
 alias tm='tmux attach -t default || tmux new -s default'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) \
     %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --max-count=15"
+alias gfh="git log --expand-tabs=4 --follow --abbrev-commit --date=relative -p -- " # Usage: gfh {file/folder} all change diff on a file/a folder
 alias gmt='git mergetool'
 alias gpr='git pull --rebase'
 alias grc='git rebase --continue'
@@ -28,12 +30,6 @@ alias git1="git clone --depth=1"
 alias gbs="git clone --depth=1 --single-branch -b " # Usage: gbs {branch} {repo}
 alias gca="git add . && git commit -C HEAD --amend"
 
-export HISTFILESIZE=100000
-export HISTSIZE=100000
-export HISTTIMEFORMAT="[%F %T] "
-export HISTCONTROL=ignoredups;
-export HISTIGNORE=""
-
 export GOPATH=~/.gopath
 export PATH=$PATH:~/.bin:./node_modules/.bin
 
@@ -41,6 +37,12 @@ case "$OSTYPE" in
     darwin*)
         export HOMEBREW_NO_AUTO_UPDATE=1
         export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin/:$PATH:$GOPATH/bin"
+        
+        if [ -f "/usr/local/share/bash-completion/bash_completion" ]; then
+            source "/usr/local/share/bash-completion/bash_completion"
+        elif [ -f /usr/local/etc/bash_completion ]; then
+            source /usr/local/etc/bash_completion
+        fi
         if [ -f /usr/local/bin/virtualenvwrapper_lazy.sh ]; then
             export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3
             source /usr/local/bin/virtualenvwrapper_lazy.sh
@@ -79,3 +81,9 @@ if [[ $BASH ]]; then
 fi
 
 alias ssha='autossh -M 0 -f -T -N '
+
+function check_port {
+    # usage: check_port domain.com port_number
+    timeout 3 sh -c 'cat < /dev/null > /dev/tcp/$1/$2' && echo "Open" || echo "Closed"
+}
+

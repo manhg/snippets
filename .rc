@@ -20,6 +20,7 @@ alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset 
 alias gfh="git log --expand-tabs=4 --follow --abbrev-commit --date=relative -p -- " # Usage: gfh {file/folder} all change diff on a file/a folder
 alias gmt='git mergetool'
 alias gpr='git pull --rebase'
+alias grm='git rebase --committer-date-is-author-date master'
 alias grc='git rebase --continue'
 alias gst='git status'
 alias gc='git commit -a'
@@ -76,3 +77,4 @@ function check_port {
 PS_COLOR="\[$(tput setaf 3)\]"
 RESET="\[$(tput sgr0)\]"
 export PS1="${PS_COLOR}\u@\h \w \$ ${RESET}"
+export HISTSIZE=100000

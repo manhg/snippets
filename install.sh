@@ -13,7 +13,7 @@ curl -L https://raw.githubusercontent.com/rupa/z/master/z.sh > ~/.z.sh
 echo 'source .z.sh' >> .bashrc
 
 echo '\nPort = 9622\nPasswordAuthentication no' >> /etc/ssh/sshd_config
-echo '\n[sshd]\nport = 9622' >> /etc/fail2ban/jail.local
+echo '\n[sshd]\n enabled = true\n port = 9622' >> /etc/fail2ban/jail.d/ssh.conf
 echo '' > /etc/motd
 systemctl reload sshd
 systemctl reload fail2ban

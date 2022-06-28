@@ -1,5 +1,4 @@
 MY=https://raw.githubusercontent.com/manhg/snippets/master
-curl $MY/.rc > ~/.rc
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update

@@ -6,17 +6,17 @@ echo 'source .bashrc' >> .bash_profile
 apt-get update
 apt-get install bash-completion curl git docker-compose postfix ufw psmisc fail2ban gnupg logcheck rsync
 
-# firewall
-ufw allow 3389
-ufw allow 9622
-ufw allow 22
-ufw allow 80
-ufw allow 443
-ufw enable
+tee -a /etc/ssh/sshd_config.d/custom.conf << END
+Port = 9622
+PasswordAuthentication no
+END
 
-# secure shell
-echo '\nPort = 9622\nPasswordAuthentication no' >> /etc/ssh/sshd_config
-echo '\n[sshd]\n enabled = true\n port = 9622' >> /etc/fail2ban/jail.d/ssh.conf
+tee -a  /etc/fail2ban/jail.d/ssh.conf << END
+[sshd]
+enabled = true
+port = 9622
+END
+
 echo '' > /etc/motd
 systemctl reload sshd
 systemctl reload fail2ban
@@ -36,3 +36,12 @@ END
 sed -i 's/#Storage.*/Storage=persistent/' /etc/systemd/journald.conf
 sed -i 's/#SystemMaxUse=.*/SystemMaxUse=2G/' /etc/systemd/journald.conf
 killall -USR1 systemd-journald
+
+
+# firewall
+ufw allow 3389
+ufw allow 9622
+ufw allow 22
+ufw allow 80
+ufw allow 443
+ufw enable

@@ -4,7 +4,7 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install bash-completion curl git docker-compose postfix ufw psmisc fail2ban gnupg logcheck rsync
+apt-get install bash-completion curl git docker-compose postfix psmisc fail2ban gnupg logcheck rsync
 
 tee -a /etc/ssh/sshd_config.d/custom.conf << END
 Port = 9622
@@ -39,6 +39,7 @@ killall -USR1 systemd-journald
 
 
 # firewall
+apt-get install ufw
 ufw allow 3389
 ufw allow 9622
 ufw allow 22

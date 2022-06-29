@@ -40,19 +40,15 @@ alias gca="git add . && git commit -C HEAD --amend"
 export GOPATH=~/.gopath
 export PATH=$PATH:~/.bin:./node_modules/.bin
 
-case "$OSTYPE" in
-    darwin*)
-    linux*)
-        if [ -f /usr/bin/virtualenvwrapper_lazy.sh ]; then
-            source /usr/bin/virtualenvwrapper_lazy.sh
-        fi
-        [ -f /etc/bash_completion ] && . /etc/bash_completion
+if [ -f /usr/bin/virtualenvwrapper_lazy.sh ]; then
+    source /usr/bin/virtualenvwrapper_lazy.sh
+fi
+[ -f /etc/bash_completion ] && . /etc/bash_completion
 
-        if [ -z "$SSH_AUTH_SOCK" ] ; then
-            eval `ssh-agent -s` &> /dev/null
-            ssh-add &> /dev/null
-        fi
-esac
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent -s` &> /dev/null
+    ssh-add &> /dev/null
+fi
 
 function check_port {
     # usage: check_port domain.com port_number

@@ -4,7 +4,7 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install bash-completion curl git docker-compose postfix psmisc fail2ban gnupg logcheck rsync
+apt-get install bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip
 
 tee -a /etc/ssh/sshd_config.d/custom.conf << END
 Port = 9622
@@ -27,16 +27,17 @@ tee -a /etc/docker/daemon.json << END
 {
   "log-driver": "local",
   "log-opts": {
-    "max-size": "10m"
-    "max-file": 10
+    "max-size": "10m",
+    "max-file": 100
   }
 }
 END
+systemctl restart docker
+pip install docker-compose
 
 sed -i 's/#Storage.*/Storage=persistent/' /etc/systemd/journald.conf
 sed -i 's/#SystemMaxUse=.*/SystemMaxUse=2G/' /etc/systemd/journald.conf
 killall -USR1 systemd-journald
-
 
 # firewall
 apt-get install ufw

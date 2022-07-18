@@ -21,6 +21,8 @@ echo '' > /etc/motd
 systemctl reload sshd
 systemctl reload fail2ban
 
+timedatectl set-timezone Asia/Tokyo
+
 # docker and logging
 # journal
 tee -a /etc/docker/daemon.json << END

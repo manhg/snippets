@@ -49,3 +49,6 @@ ufw allow 22
 ufw allow 80
 ufw allow 443
 ufw enable
+
+cd /usr/bin
+curl https://getmic.ro/r | sudo sh

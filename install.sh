@@ -4,38 +4,10 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip
-
-tee -a /etc/ssh/sshd_config.d/custom.conf << END
-Port = 9622
-PasswordAuthentication no
-END
-
-tee -a  /etc/fail2ban/jail.d/ssh.conf << END
-[sshd]
-enabled = true
-port = 9622
-END
-
+apt-get install bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
 echo '' > /etc/motd
-systemctl reload sshd
-systemctl reload fail2ban
-
 timedatectl set-timezone Asia/Tokyo
-
-# docker and logging
-# journal
-tee -a /etc/docker/daemon.json << END
-{
-  "log-driver": "local",
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": 100
-  }
-}
-END
-systemctl restart docker
-pip install docker-compose
+pip3 install docker-compose
 
 sed -i 's/#Storage.*/Storage=persistent/' /etc/systemd/journald.conf
 sed -i 's/#SystemMaxUse=.*/SystemMaxUse=2G/' /etc/systemd/journald.conf
@@ -49,6 +21,22 @@ ufw allow 22
 ufw allow 80
 ufw allow 443
 ufw enable
+
+
+mkdir /etc/ssh/sshd_config.d
+tee -a /etc/ssh/sshd_config << END
+    Port 9622
+    PasswordAuthentication no
+END
+
+tee -a  /etc/fail2ban/jail.d/ssh.conf << END
+[sshd]
+enabled = true
+port = 9622
+END
+
+systemctl reload sshd
+systemctl reload fail2ban
 
 cd /usr/bin
 curl https://getmic.ro/r | sudo sh

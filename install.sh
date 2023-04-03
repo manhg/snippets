@@ -9,8 +9,14 @@ echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo
 pip3 install docker-compose
 
-sed -i 's/#Storage.*/Storage=persistent/' /etc/systemd/journald.conf
-sed -i 's/#SystemMaxUse=.*/SystemMaxUse=2G/' /etc/systemd/journald.conf
+tee -a /etc/systemd/journald.conf << END
+    Storage=persistent
+    Compress=yes
+    MaxRetentionSec=6month
+    MaxFileSec=6month
+    MaxLevelStore=info
+    SystemMaxUse=2G
+END
 killall -USR1 systemd-journald
 
 # firewall
@@ -21,7 +27,6 @@ ufw allow 22
 ufw allow 80
 ufw allow 443
 ufw enable
-
 
 mkdir /etc/ssh/sshd_config.d
 tee -a /etc/ssh/sshd_config << END

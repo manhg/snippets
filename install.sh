@@ -28,6 +28,10 @@ ufw allow 80
 ufw allow 443
 ufw enable
 
+tee -a /etc/docker/daemon.json << END
+{"log-driver": "journald"}
+END
+
 mkdir /etc/ssh/sshd_config.d
 tee -a /etc/ssh/sshd_config << END
     Port 9622

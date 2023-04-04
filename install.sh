@@ -46,6 +46,7 @@ END
 
 systemctl reload sshd
 systemctl reload fail2ban
+systemctl restart docker
 
 cd /usr/bin
 curl https://getmic.ro/r | sudo sh

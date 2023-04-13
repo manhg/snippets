@@ -4,7 +4,7 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
+apt-get install -y bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
 echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo
 pip3 install docker-compose
@@ -32,7 +32,6 @@ tee -a /etc/docker/daemon.json << END
 {"log-driver": "journald"}
 END
 
-mkdir /etc/ssh/sshd_config.d
 tee -a /etc/ssh/sshd_config << END
     Port 9622
     PasswordAuthentication no

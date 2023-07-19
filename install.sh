@@ -17,7 +17,18 @@ tee -a /etc/systemd/journald.conf << END
     MaxLevelStore=info
     SystemMaxUse=2G
 END
+
+cd /root && wget https://raw.githubusercontent.com/manhg/snippets/master/check_disk.sh
+
+crontab -l > /root/cron.sh
+tee -a /root/cron.sh << END
+0 * * * * /bin/bash /root/check_disk.sh /dev/sda
+END
+crontab /root/cron.sh
+
 killall -USR1 systemd-journald
+
+
 
 # firewall
 apt-get install ufw

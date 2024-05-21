@@ -21,6 +21,8 @@ alias l.='ls -d .* --color=auto' # show hidden only
 alias ll='l -la' # show all
 alias rand='dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64 | cut -c -16'
 alias du1='du -h --max-depth=1'
+alias ip4='ip a|grep "inet "'
+alias ip6='ip a|grep "inet6 "'
 alias du10='du --max-depth=1 | sort -n -r | head -n 10'
 alias tm='tmux attach -t default || tmux new -s default'
 alias glg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) \

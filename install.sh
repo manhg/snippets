@@ -4,7 +4,7 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install -y bash-completion curl git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
+apt-get install -y bash-completion curl certbot git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
 echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo
 pip3 install docker-compose
@@ -22,13 +22,14 @@ cd /root && wget https://raw.githubusercontent.com/manhg/snippets/master/check_d
 
 crontab -l > /root/cron.sh
 tee -a /root/cron.sh << END
-0 * * * * /bin/bash /root/check_disk.sh /dev/sda
+MAILTO=alert@giang.biz
+PATH=/bin:/usr/bin:/usr/sbin:/usr/local/bin
+0 1 * * 0 /root/renew_ssl.sh > /dev/null
+0 * * * * /bin/bash /root/check_disk.sh /dev/sda > /dev/null
 END
 crontab /root/cron.sh
 
 killall -USR1 systemd-journald
-
-
 
 # firewall
 apt-get install ufw
@@ -40,7 +41,7 @@ ufw allow 443
 ufw enable
 
 tee -a /etc/docker/daemon.json << END
-{"log-driver": "journald"}
+{"log-driver": "journald", "iptables": false,"userland-proxy": true}
 END
 
 tee -a /etc/ssh/sshd_config << END

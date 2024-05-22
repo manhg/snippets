@@ -4,10 +4,9 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install -y bash-completion curl certbot git docker.io postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
+apt-get install -y bash-completion curl certbot git docker-compose postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
 echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo
-pip3 install docker-compose
 
 tee -a /etc/systemd/journald.conf << END
     Storage=persistent

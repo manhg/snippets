@@ -1,15 +1,17 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# lift history limit
 export HISTFILE=~/.bash_history
 shopt -s histappend
 export HISTCONTROL=ignorespace
 export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
+export HISTTIMEFORMAT="%y/%m/%d %T "
+export HISTSIZE=100000
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export MANPAGER="less -X" # Don't clear the screen after quitting a manual page
-
 export PYTHONIOENCODING=utf-8
 export PYTHONUNBUFFERED=1
 export PYTHONWARNINGS="ignore:Deprecation"
@@ -60,4 +62,4 @@ function check_port {
 PS_COLOR="\[$(tput setaf 3)\]"
 RESET="\[$(tput sgr0)\]"
 export PS1="${PS_COLOR}\u@\h \w \$ ${RESET}"
-export HISTSIZE=100000
+

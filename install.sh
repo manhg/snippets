@@ -4,7 +4,11 @@ MY=https://raw.githubusercontent.com/manhg/snippets/master
 curl $MY/bashrc > ~/.bashrc
 echo 'source .bashrc' >> .bash_profile
 apt-get update
-apt-get install -y bash-completion curl certbot git docker-compose postfix psmisc fail2ban gnupg logcheck rsync python3-pip libffi-dev
+apt-get install -y bash-completion curl rsync \
+    certbot git docker-compose postfix \
+    psmisc fail2ban gnupg logcheck libffi-dev\
+    python3-pip python3-openssl
+
 echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo
 
@@ -14,15 +18,22 @@ tee -a /etc/systemd/journald.conf << END
     MaxRetentionSec=6month
     MaxFileSec=6month
     MaxLevelStore=info
-    SystemMaxUse=2G
+    SystemMaxUse=5G
 END
 
 cd /root && wget https://raw.githubusercontent.com/manhg/snippets/master/check_disk.sh
+
+tee -a /root/cron.sh << END
+#!/bin/bash
+certbot renew --noninteractive
+nginx -t && nginx -s reload
+END
 
 crontab -l > /root/cron.sh
 tee -a /root/cron.sh << END
 MAILTO=alert@giang.biz
 PATH=/bin:/usr/bin:/usr/sbin:/usr/local/bin
+
 0 1 * * 0 /root/renew_ssl.sh > /dev/null
 0 * * * * /bin/bash /root/check_disk.sh /dev/sda > /dev/null
 END
@@ -37,6 +48,7 @@ ufw allow 9622
 ufw allow 22
 ufw allow 80
 ufw allow 443
+ufw default allow routed # comment "for docker routes"
 ufw enable
 
 tee -a /etc/docker/daemon.json << END

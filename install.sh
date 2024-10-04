@@ -79,3 +79,5 @@ systemctl restart docker
 
 cd /usr/bin
 curl https://getmic.ro/r | sudo sh
+
+sudo fallocate -l 3G /swapfile && chmod 600 /swapfile && mkswap /swapfile && echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab | swapon /swapfile

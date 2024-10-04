@@ -60,6 +60,13 @@ tee -a /etc/ssh/sshd_config << END
     PasswordAuthentication no
 END
 
+tee -a /etc/sysctl.d/tune.conf << END
+    fs.file-max = 2097152
+    vm.swappiness = 10
+    vm.vfs_cache_pressure=50
+END
+sysctl --system
+
 tee -a  /etc/fail2ban/jail.d/ssh.conf << END
 [sshd]
 enabled = true

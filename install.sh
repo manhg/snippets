@@ -64,6 +64,9 @@ tee -a /etc/sysctl.d/tune.conf << END
     fs.file-max = 2097152
     vm.swappiness = 10
     vm.vfs_cache_pressure=50
+    # ensure Docker network access
+    net.ipv4.ip_forward=1
+    net.ipv6.conf.all.forwarding=1
 END
 sysctl --system
 

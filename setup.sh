@@ -2,10 +2,10 @@ timedatectl set-timezone Asia/Tokyo
 
 apt-get update
 apt-get install -y \
-    bash-completion curl rsync \
+    bash-completion curl rsync net-tools \
     certbot git docker-compose postfix \
     psmisc fail2ban gnupg logcheck libffi-dev \
-    python3-pip python3-openssl python3-psycopg2 postgresql-client python3-dotenv rclone \
+    python3-venv python3-pip python3-openssl python3-psycopg2 postgresql-client python3-dotenv rclone \
     ufw net-tools
 
 echo '' > /etc/motd
@@ -125,6 +125,7 @@ net.ipv4.tcp_no_metrics_save = 1
 kernel.pid_max = 65536
 net.ipv4.ip_local_port_range=1024 65535
 net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
 net.ipv4.tcp_syncookies=1
 
 net.ipv4.tcp_keepalive_time = 120

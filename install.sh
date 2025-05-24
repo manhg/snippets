@@ -7,7 +7,7 @@ apt-get update
 apt-get install -y bash-completion curl rsync \
     certbot git docker-compose postfix \
     psmisc fail2ban gnupg logcheck libffi-dev\
-    python3-pip python3-openssl python3-psycopg2 python3-dotenv
+    python3-pip python3-venv python3-openssl python3-psycopg2 python3-dotenv
 
 echo '' > /etc/motd
 timedatectl set-timezone Asia/Tokyo

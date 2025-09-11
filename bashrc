@@ -40,7 +40,7 @@ alias gexp='git archive --format gzip --output'
 alias git1="git clone --depth=1"
 alias gbs="git clone --depth=1 --single-branch -b " # Usage: gbs {branch} {repo}
 alias gca="git add . && git commit -C HEAD --amend"
-
+alias dlg="docker-compose logs -f --tail=20 "
 export GOPATH=~/.gopath
 export PATH=$PATH:~/.bin:./node_modules/.bin
 

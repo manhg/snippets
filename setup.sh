@@ -2,12 +2,11 @@ timedatectl set-timezone Asia/Tokyo
 
 apt-get update
 apt-get install -y \
-    bash-completion curl rsync net-tools \
-    certbot git docker-compose postfix \
+    bash-completion curl rsync net-tools certbot git  \
+    docker.io docker-compose postfix \
     psmisc fail2ban gnupg logcheck libffi-dev \
     python3-venv python3-pip python3-openssl python3-psycopg2 postgresql-client python3-dotenv rclone \
     ufw net-tools
-
 echo '' > /etc/motd
 
 tee -a /etc/systemd/journald.conf << END
@@ -85,15 +84,19 @@ tee /etc/profile << END
     alias du1='du -h --max-depth=1'
     alias ip4='ip a|grep "inet "'
     alias ip6='ip a|grep "inet6 "'
+    alias dlg="docker-compose logs -f --tail=20 "
     alias du10='du --max-depth=1 | sort -n -r | head -n 10'
 
-    PS_COLOR="\[$(tput setaf 3)\]"
+    unset PROMPT_COMMAND
+    PS_COLOR="\[$(tput setaf 1)\]"
     RESET="\[$(tput sgr0)\]"
-    export PS1="${PS_COLOR}\u@\h \w \$ ${RESET}"
+    export PS1="${PS_COLOR}\u@\w \$ ${RESET}"
+    export HISTSIZE=100000
+    export EDITOR=nano
 END
 
 tee -a /etc/docker/daemon.json << END
-{"log-driver": "journald","iptables": false,"userland-proxy": true}
+{"log-driver": "journald"}
 END
 
 tee -a /etc/ssh/sshd_config << END
@@ -103,49 +106,49 @@ ListenAddress ::
 END
 
 tee -a /etc/sysctl.d/tune.conf << END
-fs.file-max = 2097152
+    fs.file-max = 2097152
 
-# do less swap
-vm.swappiness = 5
-vm.vfs_cache_pressure=50
-vm.dirty_background_ratio = 2
+    # do less swap
+    vm.swappiness = 5
+    vm.vfs_cache_pressure=50
+    vm.dirty_background_ratio = 2
 
-net.ipv6.conf.default.router_solicitations = 0
+    net.ipv6.conf.default.router_solicitations = 0
 
-# decrease latency
-net.core.rmem_max = 8388608
-net.core.wmem_max = 8388608
-net.core.netdev_max_backlog = 5000
+    # decrease latency
+    net.core.rmem_max = 8388608
+    net.core.wmem_max = 8388608
+    net.core.netdev_max_backlog = 5000
 
-net.ipv4.tcp_rmem = 4096 87380 33554432
-net.ipv4.tcp_wmem = 4096 65536 33554432
-net.ipv4.tcp_window_scaling = 1
-net.ipv4.tcp_no_metrics_save = 1
+    net.ipv4.tcp_rmem = 4096 87380 33554432
+    net.ipv4.tcp_wmem = 4096 65536 33554432
+    net.ipv4.tcp_window_scaling = 1
+    net.ipv4.tcp_no_metrics_save = 1
 
-kernel.pid_max = 65536
-net.ipv4.ip_local_port_range=1024 65535
-net.ipv4.ip_forward=1
-net.ipv6.conf.all.forwarding=1
-net.ipv4.tcp_syncookies=1
+    kernel.pid_max = 65536
+    net.ipv4.ip_local_port_range=1024 65535
+    net.ipv4.ip_forward=1
+    net.ipv6.conf.all.forwarding=1
+    net.ipv4.tcp_syncookies=1
 
-net.ipv4.tcp_keepalive_time = 120
+    net.ipv4.tcp_keepalive_time = 120
 
-net.core.somaxconn = 256000
-net.ipv4.tcp_congestion_control = yeah
-net.core.default_qdisc = fq_codel
+    net.core.somaxconn = 256000
+    net.ipv4.tcp_congestion_control = yeah
+    net.core.default_qdisc = fq_codel
 
-# https://community.rti.com/kb/how-can-i-improve-my-throughput-performance-linux
-net.ipv4.ipfrag_high_thresh=8388608
-net.ipv4.ipfrag_low_thresh=196608
-net.ipv6.ip6frag_high_thresh=8388608
-net.ipv6.ip6frag_low_thresh=196608
+    # https://community.rti.com/kb/how-can-i-improve-my-throughput-performance-linux
+    net.ipv4.ipfrag_high_thresh=8388608
+    net.ipv4.ipfrag_low_thresh=196608
+    net.ipv6.ip6frag_high_thresh=8388608
+    net.ipv6.ip6frag_low_thresh=196608
 
-# http://www.opennet.ru/opennews/art.shtml?num=50889
-net.ipv4.tcp_sack = 0
-net.ipv4.tcp_mtu_probing = 0
+    # http://www.opennet.ru/opennews/art.shtml?num=50889
+    net.ipv4.tcp_sack = 0
+    net.ipv4.tcp_mtu_probing = 0
 
-# Prevent TIME_WAIT attak.
-net.ipv4.tcp_rfc1337 = 1
+    # Prevent TIME_WAIT attak.
+    net.ipv4.tcp_rfc1337 = 1
 END
 sysctl --system
 
@@ -159,7 +162,10 @@ systemctl reload sshd
 systemctl reload fail2ban
 systemctl restart docker
 
+cd /usr/bin
+curl https://getmic.ro/r | sudo sh
+
 sudo fallocate -l 3G /swapfile && chmod 600 /swapfile && mkswap /swapfile && echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab | swapon /swapfile
-useradd app
-useradd app --groups sudo,adm
-mkdir -p /home/app/.ssh && chown owner /home/app && chmod 700 /app/owner
+
+wget -O /usr/local/bin/dry https://github.com/moncho/dry/releases/download/v0.11.1/dry-linux-amd64
+chmod 755 /usr/local/bin/dry

@@ -48,7 +48,7 @@ tee -a /root/cron.sh << END
 MAILTO=alert@giang.biz
 PATH=/bin:/usr/bin:/usr/sbin:/usr/local/bin
 
-0 1 * * 0 /root/renew_ssl.sh > /dev/null
+0 1 * * 0 /bin/bash /root/renew_ssl.sh > /dev/null
 0 * * * * /bin/bash /root/check_disk.sh /dev/sda > /dev/null
 END
 
@@ -57,7 +57,10 @@ tee -a /etc/docker/daemon.json << END
 "iptables": false,
 "userland-proxy": true,
 "ipv6": true,
-"fixed-cidr-v6": "64:ff9b:1::/48"}
+"fixed-cidr-v6": "64:ff9b:1::/48",
+"log-opts": {
+	"tag": "{{.Name}}"
+}}
 END
 
 tee -a /etc/ssh/sshd_config << END
@@ -66,6 +69,7 @@ PasswordAuthentication no
 ListenAddress ::
 END
 
+ echo '' > /etc/sysctl.conf
 tee -a /etc/sysctl.d/tune.conf << END
 
 fs.file-max = 2097152
